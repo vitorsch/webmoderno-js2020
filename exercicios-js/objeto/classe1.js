@@ -1,5 +1,5 @@
 class Lancamento {
-    constructor(nome = 'Genérico', valor = 0) {
+    constructor(nome = 'Genérico', valor = 1) {
         this.nome = nome
         this.valor = valor
 
