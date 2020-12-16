@@ -1,0 +1,42 @@
+Window é muito utilizado no browser para se referir ao escopo global, um objeto 
+de escopo global. 
+
+this é uma das estranhezas de JS, pois depende do escopo onde é chamado pra se ter
+ideia do que ele se refere.
+
+Variaveis declaradas com 'const' e 'let' não vao diretamente pro Window
+Entretanto com var, sim.
+
+Evitar tocar o escopo global, tentar evitar variaveis compartilhadas entre
+todos os escopos
+
+let pessoa = {nome: 'Ana', falar: function() { return `Eu sou ${this.nome}` }}
+No caso acima, this irá se referenciar a pessoa e nao ao Window
+
+pessoa.veriricarEscopo = function() { return this === window }
+Compara se this é igual ao windows dentro do escopo de pessoa, oque nao ocorre
+Pois ele é igual a pessoa.
+
+====
+No console
+
+O global dentro do node equivale ao objeto Window
+
+"let a = 3 //local
+
+global.b = 123
+this.c = 456
+this.d = false
+this.e = 'teste'
+
+console.log(a)
+console.log(global.b)
+console.log(this.c)
+console.log(module.exports.c)
+console.log(module.exports === this) true
+
+module.exports = { e: 456, f: false, g: 'teste' }
+
+// criando uma variavel maluca: sem var/let/const
+abc = 3 // nao faça isso! pois acaba criando uma variavel no obj global.
+console.log(global.abc)

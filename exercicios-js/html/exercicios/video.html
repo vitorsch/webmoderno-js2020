@@ -1,0 +1,69 @@
+<video id="meuVideo" width="800" height="450" controlsList="nodownload" muted>
+    <source src="http://files.cod3r.com.br/curso-web/video.mp4" type="video/mp4">
+    Seu browser não suporta a tag video
+</video>
+
+<div wm-progresso="meuVideo" class="progresso">
+    <div></div>
+</div>
+
+<div>
+    <button wm-play="meuVideo">Play</button>
+    <button wm-pause="meuVideo">Pause/Play</button>
+</div>
+
+<style>
+    .progresso {
+        height: 20px;
+        width: 500px;
+        border: solid 1px #444;
+    }
+
+    .progresso > div {
+        background-color: red;
+        color: #fff;
+        height: 100%;
+        text-align: right;
+        font-size: 14px;
+        width: 0%;
+    }
+</style>
+
+<script>
+    let atualizar = false
+    
+    const bar = document.querySelector('[wm-progresso] > div')
+    const vid = document.getElementById('meuVideo')
+    function atualizarBarra(barra, video, callback) {
+        console.log(100 * (video.currentTime / video.duration) + '%')
+        if (video.currentTime != video.duration && atualizar) {
+            barra.style.width = 100 * (video.currentTime / video.duration) + '%'
+            setTimeout(() => atualizarBarra(barra, video, callback), 10)
+        } else {
+            callback
+        }
+        
+    }
+    document.querySelectorAll('[wm-pause]').forEach(play => {
+
+        play.onclick = function (e) {
+            const video = document.getElementById('meuVideo')
+            //video.pause()
+            atualizar = !atualizar
+            atualizarBarra(bar, vid)
+            video.paused == true ? video.play() : video.pause()
+        }
+    })
+    
+    document.querySelectorAll('[wm-play]').forEach(play => {
+
+        play.onclick = function (e) {
+            const video = document.getElementById('meuVideo')
+            video.play()
+            video.muted = !video.muted
+            atualizar = true
+            atualizarBarra(bar, vid)
+        }
+    })
+
+</script>
