@@ -7,7 +7,122 @@
     <link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <style>
-        /* ... */
+        * {
+        }
+
+        body {
+            margin: 0;
+        }
+
+        header {
+            font-family: 'Oswald', monospace;
+        }
+        header .menu ul {
+            display: inline;
+        }
+        header .menu {
+            display: inline;
+            position: relative;
+            bottom: 45px;
+            left: 250px;
+        }
+
+        header .autenticacao {
+            position: relative;
+            bottom: 45px;
+        }
+
+        .menu a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .logo a img {
+            height: 50px;
+        }
+
+        .logo {
+            background-color: #222;
+            width: 100%;
+            border-bottom: 3px solid skyblue;
+        }
+
+        li {
+            background-color: #222;
+            display: inline;
+            padding: 12px;
+            margin: 0px 1px
+        }
+
+        li:hover {
+            background-color: rgb(82, 126, 143);
+        }
+
+        li:hover a {
+            color: black!important;
+        }
+
+        a:active {
+            background-color: rgb(82, 126, 143);
+        }
+
+        .autenticacao {
+            float: right;
+            right: 20px;
+        }
+
+        .autenticacao a {
+            color: white;
+            padding-left: 25px;
+            text-decoration: none;
+        }
+
+        .menu-toggle {
+            display: none;
+            background: rgb(63, 63, 63);
+            padding: 5px 10px;
+        }
+
+        
+        .fa-bars {
+            color: rgb(233, 226, 226);
+        }
+
+        .botao {
+            text-decoration: none;
+            padding: 7px 20px;
+            border-radius: 25px;
+        }
+
+        .destaque {
+            color: white;
+            background-color: #f00;
+        }
+
+        @media (max-width: 720px) {
+            .autenticacao{
+                display:none;
+            }
+        }
+
+        @media (max-width: 550px) {
+            header .menu ul{
+                display:none;
+            }
+            .menu-toggle{
+         /*        background-color: #222;
+                color: white; */
+                position: relative;
+                bottom: 45px;
+                float:right;
+                display: inline;
+            }
+        }
+        @media (max-width: 315px) {
+            .menu-toggle{
+                display:none;
+            }
+        }
     </style>
 </head>
 
@@ -44,7 +159,16 @@
     </header>
 
     <script>
-        // ...
+        document.querySelectorAll('.menu > ul > li').forEach(filho => {
+            filho.onclick = function (e) {
+                document.querySelectorAll('.menu > ul > li > a').forEach(resetarFilhos => {
+                    resetarFilhos.parentElement.style.backgroundColor = ''
+                    resetarFilhos.style.color = '#fff'
+                })
+                filho.style.backgroundColor = 'rgb(82, 126, 143)'
+                filho.firstElementChild.style.color = '#000'
+            }
+        })
     </script>
 </body>
 
