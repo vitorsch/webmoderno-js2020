@@ -3,9 +3,58 @@
 
 <head>
     <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
     <title>Desafio Card</title>
     <style>
-        /* ... */
+        .curso {
+            float: left;
+            /* alinha os cards pelo topo, caso não encontre as img */
+            vertical-align: top;
+            font-family: Verdana, sans-serif;
+            max-width: 260px;
+            box-shadow: 1px 1px 7px 7px lightgray;
+            height: 300px;
+            /* display: inline-block; */
+            margin: 5px 20px;
+            padding: 5px;
+        }
+
+        .curso img {
+            width: 100%;
+            max-height: 50%;
+        } 
+        /*  OVERFLOW HIDDEN, esconde tudo que ultrapassar os limites do conteudo */
+        .curso-info { 
+            padding: 10px;
+            height: 90px;
+            overflow: hidden;
+
+        }
+
+        .curso-info h4 {
+            font-size: 1.4em;
+            font-weight: 100;
+            margin: 0px;
+        }
+        /* preços */
+        .curso-preco {
+            float:right;
+            padding: 10px;
+        }
+
+        .preco-de {
+            font-size: 18px;
+            color: firebrick;
+            text-decoration: line-through;
+        }
+
+        .preco-por {
+            font-size: 25px;
+            color: rgb(1, 130, 1);
+            font-weight: bold;
+        }
+        /* preços */
+
     </style>
 </head>
 
