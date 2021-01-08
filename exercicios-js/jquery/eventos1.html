@@ -20,6 +20,40 @@
     <input type="text" placeholder="Cor de Background">
 
     <script>
-        // ...
+        function mostrarPosicaoMouse(e) {
+            $('#posicao').html(`x: ${e.clientX} y: ${e.clientY}`)
+        }
+
+        $('body').on('mousemove', mostrarPosicaoMouse)
+
+        $('#posicao').mouseover(e => {
+            $('body').off('mousemove', mostrarPosicaoMouse)
+        })
+
+        $('#posicao').mouseleave( e => {
+            $('body').on('mousemove', mostrarPosicaoMouse)
+        })
+
+        let cliques = 0 
+        $('body').click( e => {
+            $('#cliques').html(`Cliques: ${++cliques}`)
+        })
+
+        const backgroundOriginal = $('body').css('background-color')
+
+        // neste caso nao pode-se usar arrow function, pois o this iria apontar para window
+        $('input').keyup(function (e) {
+            const valor = $(this).val()
+            /* Explicando a linha abaixo:
+                O valor passado pelo input deve conter #, deve conter digito, ou de a(minusculo) 
+                à f(minusculo), ou A(maiusculo) à F(maiusculo), e obrigatoriamente deve ter de
+                3 a 6
+                */
+            if (valor.match(/#[\da-fA-F]{6}/)){
+                $('body').css('background-color', valor)
+            } else {
+                $('body').css('background-color', backgroundOriginal)
+            }
+        })
     </script>
 </body>
