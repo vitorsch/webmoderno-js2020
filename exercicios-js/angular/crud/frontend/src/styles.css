@@ -14,3 +14,23 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .v-middle {
     vertical-align: middle;
 }
+
+.fundoVerde {
+    background-color: #00551288;
+    color: #fff;
+}
+
+.cancelado {
+    background-color: #9400d388;
+    color: #fff;
+}
+
+.msg-success {
+    background-color: #28a745;
+    color: #fff;
+}
+
+.msg-error {
+    background-color: #e35e6b;
+    color: #fff;
+}
