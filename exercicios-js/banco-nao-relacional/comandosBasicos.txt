@@ -1,0 +1,8 @@
+show dbs
+use <nome db>
+db.createCollection('<nome da coleção>')
+db.<nome da coleção>.insert({<par(es) de chave: valor>})
+db.<nome da coleção.find() exibe todos os dados da coleção do db selecionado
+db.<nome da coleção.find().pretty() -- semelhante ao anterior, porem formatado(bonito)
+db.help() -- visualizar principais comandos
+db.<tab> -- visualizar todos comandos
