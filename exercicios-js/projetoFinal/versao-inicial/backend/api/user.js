@@ -9,45 +9,74 @@ module.exports = app => {
         const salt = bcrypt.genSaltSync(10)
         return bcrypt.hashSync(password, salt)
     }
-    
+
     const save = async (req, res) => {
         const user = { ...req.body }
-        if(req.params.id) user.id = req.params.id
+        if (req.params.id) user.id = req.params.id
 
-        if(!req.originalUrl.startsWith('/users')) user.admin = false
-        if(!req.user || !req.user.admin) user.admin = false 
-        
-        try {
-            existsOrError(user.name, 'Nome não informado')
-            existsOrError(user.email, 'E-mail não informado')
-            existsOrError(user.password, 'Senha não informada')
-            existsOrError(user.confirmPassword, 'Confirmação de senha inválida')
-            equalsOrError(user.password, user.confirmPassword,
-                'Senhas não conferem')
-            
-            const userFromDB = await app.db('users')
-                .where({ email: user.email }).first()
-            if(!user.id) {
-                notExistsOrError(userFromDB, 'Usuário já cadastrado!')
+        if (!req.originalUrl.startsWith('/users')) user.admin = false
+        if (!req.user || !req.user.admin) user.admin = false
+
+        if (user.id) {
+            try {
+                existsOrError(user.name, 'Nome não informado')
+                existsOrError(user.email, 'E-mail não informado')
+                equalsOrError(user.password, user.confirmPassword,
+                    'Senhas não conferem')
+
+                const userFromDB = await app.db('users')
+                    .where({ email: user.email }).first()
+                if (!user.id) {
+                    notExistsOrError(userFromDB, 'Usuário já cadastrado')
+                }
+            } catch (msg) {
+                return res.status(400).send(msg)
             }
-        } catch(msg) {
-            return res.status(400).send(msg)
+        } else {
+            try {
+                existsOrError(user.name, 'Nome não informado')
+                existsOrError(user.email, 'E-mail não informado')
+                existsOrError(user.password, 'Senha não informada')
+                existsOrError(user.confirmPassword, 'Confirmação de Senha inválida')
+                equalsOrError(user.password, user.confirmPassword,
+                    'Senhas não conferem')
+
+                const userFromDB = await app.db('users')
+                    .where({ email: user.email }).first()
+                if (!user.id) {
+                    notExistsOrError(userFromDB, 'Usuário já cadastrado')
+                }
+            } catch (msg) {
+                return res.status(400).send(msg)
+            }
         }
 
-        user.password = encryptPassword(req.body.password)
+
+        user.password = encryptPassword(user.password)
         delete user.confirmPassword
 
-        if(user.id) {
+        if (user.id && req.body.password) {
             app.db('users')
                 .update(user)
                 .where({ id: user.id })
                 .whereNull('deletedAt')
-                .then(_ => res.status(204).send())
-                .catch( err => res.status(500).send(err))
-        } else {
+                .then(() => res.status(204).send())
+                .catch(err => res.status(500).send(err))
+        } else if (user.id && !req.body.password) {
+            app.db('users')
+                .update({
+                    name: user.name,
+                    email: user.email,
+                    admin: user.admin
+                })
+                .where({ id: user.id })
+                .whereNull('deletedAt')
+                .then(() => res.status(204).send())
+                .catch(err => res.status(500).send(err))
+        } else if (!user.id) {
             app.db('users')
                 .insert(user)
-                .then(_ => res.status(204).send())
+                .then(() => res.status(204).send())
                 .catch(err => res.status(500).send(err))
         }
     }
@@ -77,12 +106,12 @@ module.exports = app => {
             notExistsOrError(articles, 'Usuário possui artigos')
 
             const rowsUpdated = await app.db('users')
-                .update({deletedAt: new Date()})
+                .update({ deletedAt: new Date() })
                 .where({ id: req.params.id })
             existsOrError(rowsUpdated, 'Usuário não foi encontrado!')
 
             res.status(204).send()
-        }catch(e){
+        } catch (e) {
             res.status(400).send(msg)
         }
     }

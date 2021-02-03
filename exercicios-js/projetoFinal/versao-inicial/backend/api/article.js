@@ -48,10 +48,10 @@ module.exports = app => {
         }
     }
 
-    const limit = 10 // usado para paginação
+    const limit = 2 // usado para paginação
 
     const get = async (req, res) => {
-        const page = req.query.page || 1
+        const page = req.query.page || 1 //passado pela url ex: ../articles?page=X
 
         const result = await app.db('articles').count('id').first()
         const count = parseInt(result.count)

@@ -2,7 +2,12 @@ module.exports = app => {
     const { existsOrError, notExistsOrError } = app.api.validation
 
     const save = (req, res) => {
-        const category = { ...req.body }
+        const category = { 
+            id: req.body.id,
+            name: req.body.name,
+            parentId: req.body.parentId
+        }
+        
         if(req.params.id) category.id = req.params.id
 
         try{
@@ -78,7 +83,7 @@ module.exports = app => {
 
     const get = (req, res) => {
         app.db('categories')
-            .then(categories => res.json(withPath(categories)))
+            .then(categories => res.json(withPath(categories))) // Retornando categorias com Path
             .catch(err => res.status(500).send(err))
     }
 
