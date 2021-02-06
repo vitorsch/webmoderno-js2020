@@ -36,7 +36,21 @@ export default {
         getTreeData() {
             const url = `${baseApiUrl}/categories/tree`
             return axios.get(url).then(res => res.data)
+        },
+        onNodeSelect(node) {
+            this.$router.push({
+                name: 'articlesByCategory',
+                params: { id: node.id }
+            })
+
+            if(this.$mq === 'xs' || this.$mq === 'sm') {
+                this.$store.commit('toggleMenu', false )
+            }
         }
+        
+    },
+    mounted() {
+        this.$refs.tree.$on('node:selected', this.onNodeSelect)
     }
 }
 </script>
@@ -82,6 +96,7 @@ export default {
         color:#CCC;
         width: 100%;
         outline: 0px;
+        font-size: 1.1rem;
     }
     .menu .menu-filter i {
         color: #AAA;
